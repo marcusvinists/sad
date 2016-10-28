@@ -93,7 +93,7 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
-        List<ServerSlaveInfo> mu = Controlador.balance.retornarServidoresMenosUsados();
+        List<ServerSlaveInfo> mu = Controlador.balance.retornarServidoresMenosArquivos();
         for (ServerSlaveInfo info : mu) {
             try {
                 op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());

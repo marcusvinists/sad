@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author vini
  */
-public class ServerSlaveInfo implements Serializable{
+public class ServerSlaveInfo implements Serializable, Comparable<ServerSlaveInfo>{
     
     private int idServidor;
     private List<String> listaDeArquivos;
@@ -56,5 +56,16 @@ public class ServerSlaveInfo implements Serializable{
 
     public void setPorta(int porta) {
         this.porta = porta;
+    }
+    /**
+     * Compara qual servidor com menor número de arquivos
+     * @param t
+     * @return 
+     */
+    @Override
+    public int compareTo(ServerSlaveInfo t) {
+        int compareQuantity = t.getListaDeArquivos().size();
+        //ascending order
+        return this.getListaDeArquivos().size() - compareQuantity;
     }
 }
