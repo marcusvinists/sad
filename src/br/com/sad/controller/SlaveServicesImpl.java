@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.controlador;
+package br.com.sad.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -20,7 +20,7 @@ public class SlaveServicesImpl extends UnicastRemoteObject implements SlaveServi
 
     @Override
     public void registrarNovoServidor(ServerSlaveInfo info) throws RemoteException {
-        if(ControllerApp.balance.adicionarServidor(info)){
+        if(ControllerApp.balance.addServer(info)){
             System.out.println("Servidor adicionado, id:" + info.getIdServidor() );
         }else{
             System.err.println("Erro, servidor não adicionado! verificar id do servidor");

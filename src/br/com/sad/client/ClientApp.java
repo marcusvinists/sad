@@ -5,10 +5,10 @@
  */
 package br.com.sad.client;
 
-import br.com.sad.util.Operacoes;
 import java.rmi.Naming;
 import java.util.List;
 import java.util.Scanner;
+import br.com.sad.util.Operations;
 
 /**
  *
@@ -24,7 +24,7 @@ public class ClientApp {
             System.out.println("Bem vindo ao SAD - Sistema de Arquivos Distrbuidos");
             Scanner scan = new Scanner(System.in);
             int portClient = 2011;
-            Operacoes cs = (Operacoes) Naming.lookup("rmi://localhost:" + portClient + "/cs");
+            Operations cs = (Operations) Naming.lookup("rmi://localhost:" + portClient + "/cs");
 
             while (true) {
                 System.out.println("********************************");

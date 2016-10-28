@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author vini
  */
-public interface Operacoes extends Remote{
+public interface Operations extends Remote{
     
     
     public List listarArquivos() throws RemoteException;

@@ -5,14 +5,14 @@
  */
 package br.com.sad.slave;
 
-import br.com.sad.controlador.ServerSlaveInfo;
-import br.com.sad.controlador.SlaveServices;
-import br.com.sad.util.Operacoes;
+import br.com.sad.controller.ServerSlaveInfo;
+import br.com.sad.controller.SlaveServices;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import br.com.sad.util.Operations;
 
 /**
  *
@@ -45,7 +45,7 @@ public class FileServerApp {
             
             //fica disponivel para realizar operacoes
             //criar conexão para slave
-            Operacoes op = new OperacoesImplSlave();
+            Operations op = new SlaveOperationsImpl();
             LocateRegistry.createRegistry(portThisSlave);
             Naming.bind("rmi://localhost:"+portThisSlave+"/ope/"+idServidor, op);
             

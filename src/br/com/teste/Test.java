@@ -5,8 +5,8 @@
  */
 package br.com.teste;
 
-import br.com.sad.controlador.LoadBalancer;
-import br.com.sad.controlador.ServerSlaveInfo;
+import br.com.sad.controller.LoadBalancer;
+import br.com.sad.controller.ServerSlaveInfo;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  *
  * @author vini
  */
-public class Teste {
+public class Test {
 
     /**
      * @param args the command line arguments
@@ -29,17 +29,17 @@ public class Teste {
 
         for (int i = 1; i < 4; i++) {
             ServerSlaveInfo info = new ServerSlaveInfo(i, listaDeArquivos, "/opt/exemplo", 3000 + i);
-            balance.adicionarServidor(info);
+            balance.addServer(info);
         }
 
         listaDeArquivos = new LinkedList<>();
         ServerSlaveInfo infoSemArq = new ServerSlaveInfo(4, listaDeArquivos, "/opt/exemplo", 3004);
-        balance.adicionarServidor(infoSemArq);
+        balance.addServer(infoSemArq);
 
 //        for(ServerSlaveInfo info: balance.getListaSlaveServers()){
 //            System.out.println(info.getIdServidor());
 //        }
-        List<ServerSlaveInfo> mu = balance.retornarServidoresMenosArquivos();
+        List<ServerSlaveInfo> mu = balance.getSlaveServersLeastFiles();
 
         mu.stream().forEach((ServerSlaveInfo info) -> {
             System.out.println(info.getIdServidor());

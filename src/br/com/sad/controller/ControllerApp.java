@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.controlador;
+package br.com.sad.controller;
 
-import br.com.sad.util.Operacoes;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
+import br.com.sad.util.Operations;
 
 /**
  *
@@ -35,7 +35,7 @@ public class ControllerApp {
             
             //criar disp conexao para client
             LocateRegistry.createRegistry(portClient);
-            Operacoes cs = new ClientServicesImpl();
+            Operations cs = new ClientServicesImpl();
             Naming.bind("rmi://localhost:"+portClient+"/cs", cs);
             
 

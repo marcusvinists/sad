@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.controlador;
+package br.com.sad.controller;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class LoadBalancer {
         listaSlaveServers = new LinkedList<>();
     }
 
-    public List<ServerSlaveInfo> retornarServidoresMenosArquivos() {
+    public List<ServerSlaveInfo> getSlaveServersLeastFiles() {
         List<ServerSlaveInfo> mu = new LinkedList<>();
         Collections.sort(listaSlaveServers);
         for (int i = 0; i < 3; i++) {
@@ -31,7 +30,7 @@ public class LoadBalancer {
         return mu;
     }
 
-    public boolean adicionarServidor(ServerSlaveInfo s) {
+    public boolean addServer(ServerSlaveInfo s) {
         boolean adiciona = true;
         for (ServerSlaveInfo info : listaSlaveServers) {
             if (s.getIdServidor() == info.getIdServidor()) {
@@ -44,7 +43,7 @@ public class LoadBalancer {
         return adiciona;
     }
 
-    public List<ServerSlaveInfo> getListaSlaveServers() {
+    public List<ServerSlaveInfo> getSlaveServersList() {
         return listaSlaveServers;
     }
 

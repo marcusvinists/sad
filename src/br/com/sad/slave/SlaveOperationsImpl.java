@@ -5,7 +5,6 @@
  */
 package br.com.sad.slave;
 
-import br.com.sad.util.Operacoes;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,14 +15,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
+import br.com.sad.util.Operations;
 
 /**
  *
  * @author vini
  */
-public class OperacoesImplSlave extends UnicastRemoteObject implements Operacoes {
+public class SlaveOperationsImpl extends UnicastRemoteObject implements Operations {
 
-    public OperacoesImplSlave() throws RemoteException {
+    public SlaveOperationsImpl() throws RemoteException {
         super();
     }
 

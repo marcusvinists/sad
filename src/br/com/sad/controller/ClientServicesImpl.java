@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.controlador;
+package br.com.sad.controller;
 
-import br.com.sad.util.Operacoes;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -13,14 +12,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
+import br.com.sad.util.Operations;
 
 /**
  *
  * @author vini
  */
-public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes {
+public class ClientServicesImpl extends UnicastRemoteObject implements Operations {
 
-    private Operacoes op;
+    private Operations op;
 
     public ClientServicesImpl() throws RemoteException {
         super();
@@ -30,9 +30,9 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
     public List listarArquivos() throws RemoteException {
         List<String> lista = new LinkedList<>();
         //tratamento e chamar metodos slave
-        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
             try {
-                op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
                 ex.printStackTrace();
             } catch (MalformedURLException ex) {
@@ -59,9 +59,9 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public void removerArquivos(String nomeDoArquivo) throws RemoteException {
-        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
             try {
-                op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
                 ex.printStackTrace();
             } catch (MalformedURLException ex) {
@@ -78,9 +78,9 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public String lerArquivo(String nomeDoArquivo) throws RemoteException {
-        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
             try {
-                op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
                 ex.printStackTrace();
             } catch (MalformedURLException ex) {
@@ -93,10 +93,10 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
-        List<ServerSlaveInfo> mu = ControllerApp.balance.retornarServidoresMenosArquivos();
+        List<ServerSlaveInfo> mu = ControllerApp.balance.getSlaveServersLeastFiles();
         for (ServerSlaveInfo info : mu) {
             try {
-                op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
                 ex.printStackTrace();
             } catch (MalformedURLException ex) {
