@@ -14,7 +14,7 @@ import java.util.Scanner;
  *
  * @author Fernando
  */
-public class Cliente {
+public class ClientApp {
 
     private static String nomeDoArquivo;
     private static String txt;

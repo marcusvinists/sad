@@ -30,7 +30,7 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
     public List listarArquivos() throws RemoteException {
         List<String> lista = new LinkedList<>();
         //tratamento e chamar metodos slave
-        for (ServerSlaveInfo info : Controlador.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
             try {
                 op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
@@ -59,7 +59,7 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public void removerArquivos(String nomeDoArquivo) throws RemoteException {
-        for (ServerSlaveInfo info : Controlador.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
             try {
                 op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
@@ -78,7 +78,7 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public String lerArquivo(String nomeDoArquivo) throws RemoteException {
-        for (ServerSlaveInfo info : Controlador.balance.getListaSlaveServers()) {
+        for (ServerSlaveInfo info : ControllerApp.balance.getListaSlaveServers()) {
             try {
                 op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
             } catch (NotBoundException ex) {
@@ -93,7 +93,7 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operacoes
 
     @Override
     public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
-        List<ServerSlaveInfo> mu = Controlador.balance.retornarServidoresMenosArquivos();
+        List<ServerSlaveInfo> mu = ControllerApp.balance.retornarServidoresMenosArquivos();
         for (ServerSlaveInfo info : mu) {
             try {
                 op = (Operacoes) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());

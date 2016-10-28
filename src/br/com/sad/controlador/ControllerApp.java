@@ -13,7 +13,7 @@ import java.rmi.registry.LocateRegistry;
  *
  * @author Fernando
  */
-public class Controlador {
+public class ControllerApp {
 
     public static LoadBalancer balance;
 

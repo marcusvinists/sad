@@ -18,7 +18,7 @@ import java.util.Scanner;
  *
  * @author vini
  */
-public class ServerSlave {
+public class FileServerApp {
     public static ServerSlaveInfo info;
     /**
      * @param args the command line arguments

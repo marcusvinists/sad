@@ -30,7 +30,7 @@ public class OperacoesImplSlave extends UnicastRemoteObject implements Operacoes
     @Override
     public List listarArquivos() throws RemoteException {
         List<String> arNames = new LinkedList<>();
-        File folder = new File(ServerSlave.info.getPathArquivos());
+        File folder = new File(FileServerApp.info.getPathArquivos());
         File[] listOfFiles = folder.listFiles();
 
         for (File listOfFile : listOfFiles) {
@@ -47,7 +47,7 @@ public class OperacoesImplSlave extends UnicastRemoteObject implements Operacoes
     @Override
     public void removerArquivos(String nomeDoArquivo) throws RemoteException {
         try {
-            File file = new File(ServerSlave.info.getPathArquivos() + "/" + nomeDoArquivo);
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
             file.delete();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -58,7 +58,7 @@ public class OperacoesImplSlave extends UnicastRemoteObject implements Operacoes
     public String lerArquivo(String nomeDoArquivo) throws RemoteException {
         String text = null;
         try {
-            File file = new File(ServerSlave.info.getPathArquivos() + "/" + nomeDoArquivo);
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
             if (file.exists()) {
                 text = "";
                 List<String> lines = Files.readAllLines((file.toPath()),
@@ -79,7 +79,7 @@ public class OperacoesImplSlave extends UnicastRemoteObject implements Operacoes
     @Override
     public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
         try {
-            File file = new File(ServerSlave.info.getPathArquivos() + "/" + nomeDoArquivo);
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
             file.createNewFile();
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             try (BufferedWriter bw = new BufferedWriter(fw)) {
