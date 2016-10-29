@@ -106,5 +106,9 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
             info.getListaDeArquivos().add(nomeDoArquivo);
         }
     }
+    
+    public boolean haveThreeSlaves(){
+        return ControllerApp.balance.getSlaveServersList().size() >= 3;
+    }
 
 }
