@@ -14,16 +14,16 @@ import java.util.List;
  */
 public class Response implements Serializable{
     
-    private int status;
+    private ResponseEnum status;
     private String message;
     private List listeResponse;
     private String txtResponse;
 
-    public int getStatus() {
+    public ResponseEnum getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(ResponseEnum status) {
         this.status = status;
     }
 

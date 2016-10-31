@@ -7,7 +7,6 @@ package br.com.sad.util;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  *
@@ -16,11 +15,11 @@ import java.util.List;
 public interface Operations extends Remote{
     
     
-    public List listarArquivos() throws RemoteException;
+    public Response listFiles() throws RemoteException;
     
-    public void removerArquivos(String nomeDoArquivo)throws RemoteException;
+    public Response removeFiles(Request request)throws RemoteException;
     
-    public String lerArquivo(String nomeDoArquivo)throws RemoteException;
+    public Response readFiles(Request request)throws RemoteException;
     
-    public void salvarArquivo(String nomeDoArquivo, String txt)throws RemoteException;
+    public Response createFiles(Request request)throws RemoteException;
 }

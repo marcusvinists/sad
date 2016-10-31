@@ -16,19 +16,24 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 import br.com.sad.util.Operations;
+import br.com.sad.util.Request;
+import br.com.sad.util.Response;
+import br.com.sad.util.ResponseEnum;
 
 /**
  *
  * @author vini
  */
 public class SlaveOperationsImpl extends UnicastRemoteObject implements Operations {
-
+    private Response resp;
+    
     public SlaveOperationsImpl() throws RemoteException {
         super();
+        resp = new Response();
     }
 
     @Override
-    public List listarArquivos() throws RemoteException {
+    public Response listFiles() throws RemoteException {
         List<String> arNames = new LinkedList<>();
         File folder = new File(FileServerApp.info.getPathArquivos());
         File[] listOfFiles = folder.listFiles();
@@ -38,27 +43,32 @@ public class SlaveOperationsImpl extends UnicastRemoteObject implements Operatio
                 System.out.println("File " + listOfFile.getName());
                 arNames.add(listOfFile.getName());
             } else if (listOfFile.isDirectory()) {
-                //System.out.println("Directory " + listOfFile.getName());
             }
         }
-        return arNames;
+        resp.setListeResponse(arNames);
+        resp.setStatus(ResponseEnum.success);
+        return resp;
     }
 
     @Override
-    public void removerArquivos(String nomeDoArquivo) throws RemoteException {
+    public Response removeFiles(Request request) throws RemoteException {
         try {
-            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + request.getFileName());
             file.delete();
+            resp.setStatus(ResponseEnum.success);
         } catch (Exception ex) {
+            resp.setStatus(ResponseEnum.error);
+            resp.setMessage(ex.getMessage());
             ex.printStackTrace();
         }
+        return resp;
     }
 
     @Override
-    public String lerArquivo(String nomeDoArquivo) throws RemoteException {
+    public Response readFiles(Request request) throws RemoteException {
         String text = null;
         try {
-            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + request.getFileName());
             if (file.exists()) {
                 text = "";
                 List<String> lines = Files.readAllLines((file.toPath()),
@@ -71,24 +81,34 @@ public class SlaveOperationsImpl extends UnicastRemoteObject implements Operatio
             }
             
         } catch (Exception ex) {
+            resp.setStatus(ResponseEnum.error);
             ex.printStackTrace();
         }
-        return text;
+        resp.setStatus(ResponseEnum.success);
+        resp.setTxtResponse(text);
+        return resp;
     }
 
     @Override
-    public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
+    public Response createFiles(Request request) throws RemoteException {
         try {
-            File file = new File(FileServerApp.info.getPathArquivos() + "/" + nomeDoArquivo);
+//            String nomeDoArquivo, String txt
+            File file = new File(FileServerApp.info.getPathArquivos() + "/" + request.getFileName());
             file.createNewFile();
             FileWriter fw = new FileWriter(file.getAbsoluteFile());
             try (BufferedWriter bw = new BufferedWriter(fw)) {
-                bw.write(txt);
+                bw.write(request.getFileTxt());
             }
         } catch (IOException e) {
+            resp.setStatus(ResponseEnum.error);
+            resp.setMessage(e.getMessage());
+            
             e.printStackTrace();
             System.out.println("Não foi possível criar o arquivo: " + e.getMessage());
+            return resp;
         }
+        resp.setStatus(ResponseEnum.success);
+        return resp;
     }
 
 }

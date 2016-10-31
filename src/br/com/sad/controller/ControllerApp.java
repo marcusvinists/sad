@@ -40,7 +40,7 @@ public class ControllerApp {
             
 
             System.out.println("Controlador de servidores está em funcionamento...");
-            ;
+            
         } catch (Exception e) {
             System.err.println("Problemas ao registrar objeto");
             System.err.println(e.getMessage());

@@ -13,6 +13,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 import br.com.sad.util.Operations;
+import br.com.sad.util.Request;
+import br.com.sad.util.Response;
+import br.com.sad.util.ResponseEnum;
 
 /**
  *
@@ -21,13 +24,16 @@ import br.com.sad.util.Operations;
 public class ClientServicesImpl extends UnicastRemoteObject implements Operations {
 
     private Operations op;
+    private Response resp;
 
     public ClientServicesImpl() throws RemoteException {
         super();
+        resp = new Response();
     }
 
     @Override
-    public List listarArquivos() throws RemoteException {
+    public Response listFiles() throws RemoteException {
+         
         List<String> lista = new LinkedList<>();
         //tratamento e chamar metodos slave
         for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
@@ -38,8 +44,8 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
-
-            List listarArquivos = op.listarArquivos();
+            Response respSlave = op.listFiles();
+            List listarArquivos = respSlave.getListeResponse();
             for (Object str : listarArquivos) {
                 boolean insere = true;
                 if (!lista.isEmpty()) {
@@ -54,11 +60,13 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
                 }
             }
         }
-        return lista;
+        resp.setStatus(ResponseEnum.success);
+        resp.setListeResponse(lista);
+        return resp;
     }
 
     @Override
-    public void removerArquivos(String nomeDoArquivo) throws RemoteException {
+    public Response removeFiles(Request request) throws RemoteException {
         for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
             try {
                 op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
@@ -67,17 +75,19 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
-            op.removerArquivos(nomeDoArquivo);
+            resp = op.removeFiles(request);
             for (int i = 0; i < info.getListaDeArquivos().size(); i++) {
-                if (info.getListaDeArquivos().get(i).equals(nomeDoArquivo)) {
+                if (info.getListaDeArquivos().get(i).equals(request.getFileName())) {
                     info.getListaDeArquivos().remove(i);
                 }
             }
         }
+        resp.setStatus(ResponseEnum.success);
+        return resp;
     }
 
     @Override
-    public String lerArquivo(String nomeDoArquivo) throws RemoteException {
+    public Response readFiles(Request request) throws RemoteException {
         for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
             try {
                 op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
@@ -86,13 +96,14 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
-            return op.lerArquivo(nomeDoArquivo);
+            return op.readFiles(request);
         }
-        return null;
+        resp.setStatus(ResponseEnum.error);
+        return resp;
     }
 
     @Override
-    public void salvarArquivo(String nomeDoArquivo, String txt) throws RemoteException {
+    public Response createFiles(Request request) throws RemoteException {
         List<ServerSlaveInfo> mu = ControllerApp.balance.getSlaveServersLeastFiles();
         for (ServerSlaveInfo info : mu) {
             try {
@@ -102,9 +113,11 @@ public class ClientServicesImpl extends UnicastRemoteObject implements Operation
             } catch (MalformedURLException ex) {
                 ex.printStackTrace();
             }
-            op.salvarArquivo(nomeDoArquivo, txt);
-            info.getListaDeArquivos().add(nomeDoArquivo);
+            resp = op.createFiles(request);
+            info.getListaDeArquivos().add(request.getFileName());
         }
+        resp.setStatus(ResponseEnum.success);
+        return resp;
     }
     
     public boolean haveThreeSlaves(){

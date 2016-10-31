@@ -5,10 +5,15 @@
  */
 package br.com.sad.client;
 
+import br.com.sad.util.ResponseManager;
 import java.rmi.Naming;
 import java.util.List;
 import java.util.Scanner;
 import br.com.sad.util.Operations;
+import br.com.sad.util.OperationsEnum;
+import br.com.sad.util.Request;
+import br.com.sad.util.RequestManager;
+import br.com.sad.util.Response;
 
 /**
  *
@@ -21,6 +26,11 @@ public class ClientApp {
 
     public static void main(String args[]) {
         try {
+            Request req;
+            Response res = new Response();
+            ResponseManager rm = new ResponseManager();
+            RequestManager reqM = new RequestManager();
+            
             System.out.println("Bem vindo ao SAD - Sistema de Arquivos Distrbuidos");
             Scanner scan = new Scanner(System.in);
             int portClient = 2011;
@@ -37,66 +47,31 @@ public class ClientApp {
                 System.out.println("********************************");
                 System.out.println(" ");
                 int servico = scan.nextInt();
-                digitarNomeOuCont(servico);
+                req = reqM.setRequestInfo(servico);
                 switch (servico) {
                     case 1:
-                        cs.removerArquivos(nomeDoArquivo);
+                         res = cs.removeFiles(req);
                         break;
                     case 2:
-                        List lista = cs.listarArquivos();
-                        System.out.println(" ");
-                        System.out.println("********************************");
-                        if (lista.size() > 0) {
-                            System.out.println("Lista de arquivos: ");
-                        } else {
-                            System.out.println("Nenhum arquivo a ser exibido!");
-                        }
-                        int i = 1;
-                        for (Object str : lista) {
-                            System.out.println(i + "-" + str.toString());
-                            i += 1;
-                        }
-                        System.out.println("********************************");
-                        System.out.println("");
+                         res = cs.listFiles();
                         break;
                     case 3:
-                        cs.salvarArquivo(nomeDoArquivo, txt);
-                        System.out.println("********************************");
-                        System.out.println("Arquivo " + nomeDoArquivo + " criado.");
-                        System.out.println("********************************");
-                        System.out.println("");
+                         res = cs.createFiles(req);
                         break;
                     case 4:
-                        String conteudo = cs.lerArquivo(nomeDoArquivo);
-                        System.out.println("********************************");
-                        if (conteudo != null) {
-                            System.out.println("Conteúdo do arquivo: ");
-                            System.out.println(conteudo);
-                        } else {
-                            System.out.println("Arquivo não encontrado");
-                        }
-                        System.out.println("********************************");
-                        System.out.println(" ");
+                         res = cs.readFiles(req);
+                         break;
                     case 5:
                         System.exit(0);
                         break;
                 }
+                rm.checkResponse(res, req, servico);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void digitarNomeOuCont(int servico) {
-        Scanner scan = new Scanner(System.in);
-        if (servico == 1 || servico == 4 || servico == 3) {
-            System.out.println("Digite o nome do arquivo");
-            nomeDoArquivo = scan.nextLine();
-        }
-        if (servico == 3) {
-            System.out.println("Digite o conteúdo do arquivo");
-            txt = scan.nextLine();
-        }
-    }
+    
 
 }
