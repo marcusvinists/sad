@@ -26,4 +26,20 @@ public enum OperationsEnum {
         return operationVal;
     }
 
+     public static OperationsEnum retornarEnum(int servico){
+        switch (servico) {
+            case 1:
+                return OperationsEnum.remove;
+            case 2:
+                return OperationsEnum.list;
+            case 3:
+                return OperationsEnum.create;
+            case 4:
+                return OperationsEnum.read;
+            case 5:
+                return OperationsEnum.exit;
+            default:
+                return OperationsEnum.exit;
+        }
+    }
 }

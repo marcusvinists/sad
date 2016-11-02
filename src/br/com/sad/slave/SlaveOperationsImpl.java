@@ -5,6 +5,7 @@
  */
 package br.com.sad.slave;
 
+import br.com.sad.slave.app.FileServerApp;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

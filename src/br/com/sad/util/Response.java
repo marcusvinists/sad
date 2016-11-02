@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package br.com.sad.util;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import java.util.List;
 public class Response implements Serializable{
     
     private ResponseEnum status;
+    private OperationsEnum operation;
     private String message;
     private List listeResponse;
     private String txtResponse;
@@ -26,6 +26,16 @@ public class Response implements Serializable{
     public void setStatus(ResponseEnum status) {
         this.status = status;
     }
+
+    public OperationsEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(OperationsEnum operation) {
+        this.operation = operation;
+    }
+    
+    
 
     public String getMessage() {
         return message;
@@ -50,7 +60,4 @@ public class Response implements Serializable{
     public void setTxtResponse(String txtResponse) {
         this.txtResponse = txtResponse;
     }
-    
-    
-    
 }

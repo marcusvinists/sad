@@ -5,6 +5,7 @@
  */
 package br.com.sad.controller;
 
+import br.com.sad.controller.app.ControllerApp;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

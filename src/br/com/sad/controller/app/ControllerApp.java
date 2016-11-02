@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.controller;
+package br.com.sad.controller.app;
 
+import br.com.sad.controller.ClientServicesImpl;
+import br.com.sad.controller.LoadBalancer;
+import br.com.sad.controller.SlaveServices;
+import br.com.sad.controller.SlaveServicesImpl;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import br.com.sad.util.Operations;

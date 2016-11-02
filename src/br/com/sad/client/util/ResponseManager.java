@@ -3,11 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.util;
+package br.com.sad.client.util;
 
-import br.com.sad.util.Request;
+import static br.com.sad.util.OperationsEnum.create;
+import static br.com.sad.util.OperationsEnum.list;
+import static br.com.sad.util.OperationsEnum.read;
+import static br.com.sad.util.OperationsEnum.remove;
 import br.com.sad.util.Response;
 import br.com.sad.util.ResponseEnum;
+
+
+
+
+
 
 /**
  *
@@ -19,9 +27,9 @@ public class ResponseManager {
      * Método checa se mensagem respondeu erro ou se respondeu ok. imprime
      * resposta ou mensagem de erro;
      *
-     * @param response
+     * @param response Objeto preenchido pelo requestManager
      */
-    public void checkResponse(Response response, Request req, int servico) {
+    public void checkResponse(Response response) {
         System.out.println(" ");
         System.out.println("********************************");
         if (response.getStatus() == ResponseEnum.error) {
@@ -29,11 +37,12 @@ public class ResponseManager {
             System.out.println("Motivo: ");
             System.out.println(response.getMessage());
         } else {
-            switch (servico) {
-                case 1:
+
+            switch (response.getOperation()) {
+                case remove:
                     System.out.println("Arquivo removido com sucesso");
                     break;
-                case 2:
+                case list:
                     if (response.getListeResponse().size() > 0) {
                         System.out.println("Lista de arquivos: ");
                     } else {
@@ -45,10 +54,10 @@ public class ResponseManager {
                         i += 1;
                     }
                     break;
-                case 3:
-                    System.out.println("Arquivo " + req.getFileName() + " criado.");
+                case create:
+                    System.out.println("Arquivo criado!");
                     break;
-                case 4:
+                case read:
 
                     if (response.getTxtResponse() != null) {
                         System.out.println("Conteúdo do arquivo: ");
@@ -57,7 +66,7 @@ public class ResponseManager {
                         System.out.println("Arquivo não encontrado");
                     }
                     break;
-                case 5:
+                case exit:
                     System.out.println("Saindo.....");
                     System.out.println("Obrigado por usar o incrível SAD!");
                     break;
