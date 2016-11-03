@@ -5,15 +5,15 @@
  */
 package br.com.sad.client.util;
 
-import br.com.sad.util.Operations;
-import br.com.sad.util.OperationsEnum;
-import br.com.sad.util.Request;
-import br.com.sad.util.Response;
+import br.com.sad.controller_client.Controller;
+import br.com.sad.controller_slave.Operations;
+import br.com.sad.controller_client_slave.OperationsEnum;
+import br.com.sad.controller_client_slave.Request;
+import br.com.sad.controller_client_slave.Response;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.text.ParseException;
 import java.util.Scanner;
 
 /**
@@ -24,9 +24,11 @@ public class RequestManager {
 
     public Response MakeRequest() throws NotBoundException, MalformedURLException, RemoteException {
         Response res = null;
+        Request req = new Request();
         Scanner scan = new Scanner(System.in);
         int portClient = 2011;
-        Operations cs = (Operations) Naming.lookup("rmi://localhost:" + portClient + "/cs");
+        
+        Controller ct = (Controller) Naming.lookup("rmi://localhost:" + portClient + "/ct");
 
         System.out.println("********************************");
         System.out.println("Selecione a operaçao desejada:");
@@ -41,43 +43,25 @@ public class RequestManager {
         try {
             int servico = Integer.parseInt(servicoStr);
 
-            Request req = new Request();
+            OperationsEnum operationUnum = OperationsEnum.retornarEnum(servico);
+            req.setOperation(operationUnum);
 
-            if (servico == 1 || servico == 4 || servico == 3) {
+            if (operationUnum != OperationsEnum.list && operationUnum != OperationsEnum.exit) {
                 System.out.println("Digite o nome do arquivo");
                 String fileName = scan.nextLine();
                 req.setFileName(fileName);
-
             }
-            if (servico == 3) {
+            if (operationUnum == OperationsEnum.create) {
                 System.out.println("Digite o conteúdo do arquivo");
                 req.setFileTxt(scan.nextLine());
             }
 
-            switch (servico) {
-                case 1:
-                    res = cs.removeFiles(req);
-                    break;
-                case 2:
-                    res = cs.listFiles();
-                    break;
-                case 3:
-                    res = cs.createFiles(req);
-                    break;
-                case 4:
-                    res = cs.readFiles(req);
-                    break;
-                case 5:
-                    System.exit(0);
-                    break;
-                default:
-                    System.exit(0);
-                    break;
+            if (operationUnum != OperationsEnum.not_impl) {
+                res = ct.makeRequest(req);
+            } else {
+                System.out.println("Valor passado inválido, favor digitar apenas "
+                        + "valores numéricos solicitados");
             }
-            if (res != null) {
-                res.setOperation(OperationsEnum.retornarEnum(servico));
-            }
-
         } catch (NumberFormatException e) {
             System.out.println("Valor passado inválido, favor digitar apenas "
                     + "valores numéricos solicitados");

@@ -7,7 +7,7 @@ package br.com.sad.client.app;
 
 import br.com.sad.client.util.RequestManager;
 import br.com.sad.client.util.ResponseManager;
-import br.com.sad.util.Response;
+import br.com.sad.controller_client_slave.Response;
 
 /**
  *

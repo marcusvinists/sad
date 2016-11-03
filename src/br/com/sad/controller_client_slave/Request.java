@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.util;
+package br.com.sad.controller_client_slave;
 
 import java.io.Serializable;
 
@@ -15,6 +15,7 @@ public class Request implements Serializable{
     private String filePath;
     private String fileName;
     private String fileTxt;
+     private OperationsEnum operation;
 
     public String getFilePath() {
         return filePath;
@@ -39,7 +40,12 @@ public class Request implements Serializable{
     public void setFileTxt(String fileTxt) {
         this.fileTxt = fileTxt;
     }
-    
-    
-    
+
+    public OperationsEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(OperationsEnum operation) {
+        this.operation = operation;
+    }
 }

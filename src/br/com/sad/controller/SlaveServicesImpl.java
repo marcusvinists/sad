@@ -5,6 +5,8 @@
  */
 package br.com.sad.controller;
 
+import br.com.sad.controller_slave.ServerSlaveInfo;
+import br.com.sad.controller_slave.SlaveServices;
 import br.com.sad.controller.app.ControllerApp;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

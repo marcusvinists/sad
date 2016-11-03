@@ -6,12 +6,14 @@
 package br.com.sad.controller.app;
 
 import br.com.sad.controller.ClientServicesImpl;
+import br.com.sad.controller.ControllerImpl;
 import br.com.sad.controller.LoadBalancer;
-import br.com.sad.controller.SlaveServices;
+import br.com.sad.controller_slave.SlaveServices;
 import br.com.sad.controller.SlaveServicesImpl;
+import br.com.sad.controller_client.Controller;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
-import br.com.sad.util.Operations;
+import br.com.sad.controller_slave.Operations;
 
 /**
  *
@@ -24,10 +26,8 @@ public class ControllerApp {
     public static void main(String args[]) {
         balance = new LoadBalancer();
         try {
-
             int portSlave = 2010;
             int portClient = 2011;
-            
 
             //Intancia obj com metodos dip para cliente
             SlaveServices ss = new SlaveServicesImpl();
@@ -39,14 +39,14 @@ public class ControllerApp {
             
             //criar disp conexao para client
             LocateRegistry.createRegistry(portClient);
-            Operations cs = new ClientServicesImpl();
-            Naming.bind("rmi://localhost:"+portClient+"/cs", cs);
+            Controller ct = new ControllerImpl();
+            Naming.bind("rmi://localhost:"+portClient+"/ct", ct);
             
 
             System.out.println("Controlador de servidores está em funcionamento...");
             
         } catch (Exception e) {
-            System.err.println("Problemas ao registrar objeto");
+            System.err.println("Erro ao executar Controlador de servidores de arquivos");
             System.err.println(e.getMessage());
         }
     }

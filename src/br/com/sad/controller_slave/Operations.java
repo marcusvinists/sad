@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.util;
+package br.com.sad.controller_slave;
 
+import br.com.sad.controller_client_slave.Request;
+import br.com.sad.controller_client_slave.Response;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

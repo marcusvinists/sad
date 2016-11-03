@@ -5,12 +5,12 @@
  */
 package br.com.sad.client.util;
 
-import static br.com.sad.util.OperationsEnum.create;
-import static br.com.sad.util.OperationsEnum.list;
-import static br.com.sad.util.OperationsEnum.read;
-import static br.com.sad.util.OperationsEnum.remove;
-import br.com.sad.util.Response;
-import br.com.sad.util.ResponseEnum;
+import static br.com.sad.controller_client_slave.OperationsEnum.create;
+import static br.com.sad.controller_client_slave.OperationsEnum.list;
+import static br.com.sad.controller_client_slave.OperationsEnum.read;
+import static br.com.sad.controller_client_slave.OperationsEnum.remove;
+import br.com.sad.controller_client_slave.Response;
+import br.com.sad.controller_client_slave.ResponseEnum;
 
 
 

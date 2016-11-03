@@ -5,6 +5,7 @@
  */
 package br.com.sad.controller;
 
+import br.com.sad.controller_slave.ServerSlaveInfo;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

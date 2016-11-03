@@ -5,8 +5,8 @@
  */
 package br.com.sad.slave.app;
 
-import br.com.sad.controller.ServerSlaveInfo;
-import br.com.sad.controller.SlaveServices;
+import br.com.sad.controller_slave.ServerSlaveInfo;
+import br.com.sad.controller_slave.SlaveServices;
 import br.com.sad.slave.ServerSlaveUtil;
 import br.com.sad.slave.SlaveOperationsImpl;
 import java.rmi.Naming;
@@ -14,7 +14,7 @@ import java.rmi.registry.LocateRegistry;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import br.com.sad.util.Operations;
+import br.com.sad.controller_slave.Operations;
 
 /**
  *

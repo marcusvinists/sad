@@ -5,6 +5,7 @@
  */
 package br.com.sad.controller;
 
+import br.com.sad.controller_slave.ServerSlaveInfo;
 import br.com.sad.controller.app.ControllerApp;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -13,10 +14,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
-import br.com.sad.util.Operations;
-import br.com.sad.util.Request;
-import br.com.sad.util.Response;
-import br.com.sad.util.ResponseEnum;
+import br.com.sad.controller_slave.Operations;
+import br.com.sad.controller_client_slave.Request;
+import br.com.sad.controller_client_slave.Response;
+import br.com.sad.controller_client_slave.ResponseEnum;
 
 /**
  *

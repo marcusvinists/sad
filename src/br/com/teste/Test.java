@@ -6,7 +6,7 @@
 package br.com.teste;
 
 import br.com.sad.controller.LoadBalancer;
-import br.com.sad.controller.ServerSlaveInfo;
+import br.com.sad.controller_slave.ServerSlaveInfo;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;

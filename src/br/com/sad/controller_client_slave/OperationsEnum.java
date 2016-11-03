@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sad.util;
+package br.com.sad.controller_client_slave;
 
 /**
  *
@@ -14,7 +14,8 @@ public enum OperationsEnum {
     list(2),
     remove(1),
     read(4),
-    exit(5);
+    exit(5),
+    not_impl(6);
 
     private final int operationVal;
 
@@ -39,7 +40,7 @@ public enum OperationsEnum {
             case 5:
                 return OperationsEnum.exit;
             default:
-                return OperationsEnum.exit;
+                return OperationsEnum.not_impl;
         }
     }
 }

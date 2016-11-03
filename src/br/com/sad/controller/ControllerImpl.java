@@ -5,19 +5,151 @@
  */
 package br.com.sad.controller;
 
-import br.com.sad.util.Request;
-import br.com.sad.util.Response;
+import br.com.sad.controller.app.ControllerApp;
+import br.com.sad.controller_client.Controller;
+import br.com.sad.controller_client_slave.Request;
+import br.com.sad.controller_client_slave.Response;
+import br.com.sad.controller_client_slave.ResponseEnum;
+import br.com.sad.controller_slave.Operations;
+import br.com.sad.controller_slave.ServerSlaveInfo;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
  * @author vini
  */
-public class ControllerImpl {
+public class ControllerImpl extends UnicastRemoteObject implements Controller, Operations {
     
+    private Operations op;
+    private Response resp;
     
+    public ControllerImpl() throws RemoteException {
+        super();
+        resp = new Response();
+    }
     
-//    public Response analyzeRequest(Request request){
-//        
-//    }
-//    
+    @Override
+    public Response makeRequest(Request request) throws RemoteException {
+        Response res = new Response();
+        
+        switch (request.getOperation()) {
+            case remove:
+                res = removeFiles(request);
+                break;
+            case list:
+                res = listFiles();
+                break;
+            case create:
+                res = createFiles(request);
+                break;
+            case read:
+                res = readFiles(request);
+                break;
+            default:
+                res.setStatus(ResponseEnum.error);
+                res.setMessage("Erro, tipo de operação não reconhecida pelo Controlador");
+                break;
+        }
+        
+        res.setOperation(request.getOperation());
+        return res;
+    }
+    
+    @Override
+    public Response listFiles() throws RemoteException {
+        List<String> lista = new LinkedList<>();
+        //tratamento e chamar metodos slave
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
+            try {
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+            } catch (NotBoundException ex) {
+                ex.printStackTrace();
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            Response respSlave = op.listFiles();
+            List listarArquivos = respSlave.getListeResponse();
+            for (Object str : listarArquivos) {
+                boolean insere = true;
+                if (!lista.isEmpty()) {
+                    for (String str2 : lista) {
+                        if (str2.equalsIgnoreCase(str.toString())) {
+                            insere = false;
+                        }
+                    }
+                }
+                if (insere) {
+                    lista.add(str.toString());
+                }
+            }
+        }
+        resp.setStatus(ResponseEnum.success);
+        resp.setListeResponse(lista);
+        return resp;
+    }
+    
+    @Override
+    public Response removeFiles(Request request) throws RemoteException {
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
+            try {
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+            } catch (NotBoundException ex) {
+                ex.printStackTrace();
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            resp = op.removeFiles(request);
+            for (int i = 0; i < info.getListaDeArquivos().size(); i++) {
+                if (info.getListaDeArquivos().get(i).equals(request.getFileName())) {
+                    info.getListaDeArquivos().remove(i);
+                }
+            }
+        }
+        resp.setStatus(ResponseEnum.success);
+        return resp;
+    }
+    
+    @Override
+    public Response readFiles(Request request) throws RemoteException {
+        for (ServerSlaveInfo info : ControllerApp.balance.getSlaveServersList()) {
+            try {
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+            } catch (NotBoundException ex) {
+                ex.printStackTrace();
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            return op.readFiles(request);
+        }
+        resp.setStatus(ResponseEnum.error);
+        return resp;
+    }
+    
+    @Override
+    public Response createFiles(Request request) throws RemoteException {
+        List<ServerSlaveInfo> mu = ControllerApp.balance.getSlaveServersLeastFiles();
+        for (ServerSlaveInfo info : mu) {
+            try {
+                op = (Operations) Naming.lookup("rmi://localhost:" + info.getPorta() + "/ope/" + info.getIdServidor());
+            } catch (NotBoundException ex) {
+                ex.printStackTrace();
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            resp = op.createFiles(request);
+            info.getListaDeArquivos().add(request.getFileName());
+        }
+        resp.setStatus(ResponseEnum.success);
+        return resp;
+    }
+    
+    public boolean haveThreeSlaves() {
+        return ControllerApp.balance.getSlaveServersList().size() >= 3;
+    }
 }
