@@ -23,7 +23,7 @@ public class SlaveServicesImpl extends UnicastRemoteObject implements SlaveServi
 
     @Override
     public void registrarNovoServidor(ServerSlaveInfo info) throws RemoteException {
-        if(ControllerApp.balance.addServer(info)){
+        if(ControllerApp.ctControll.addFileServer(info)){
             System.out.println("Servidor adicionado, id:" + info.getIdServidor() );
         }else{
             System.err.println("Erro, servidor não adicionado! verificar id do servidor");

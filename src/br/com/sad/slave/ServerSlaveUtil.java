@@ -17,11 +17,10 @@ public class ServerSlaveUtil {
     public void createDir(int id) throws RemoteException {
         String path = "/opt/sad/" + id + "/";
         File f = new File(path);
-        if (f.exists()) {
-            System.err.print("local para armazenamento ja existe favor informar outro id");
-        } else{ 
+        if (!f.exists()) {
             if (!f.mkdir()) {
-            System.out.println("Could not create directory");
+            System.out.println("Não foi possível criar local de armazenamento:");
+            System.out.println(path);
         }
     }
     }

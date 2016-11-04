@@ -5,15 +5,13 @@
  */
 package br.com.sad.controller.app;
 
-import br.com.sad.controller.ClientServicesImpl;
+import br.com.sad.controller.ContextControll;
 import br.com.sad.controller.ControllerImpl;
-import br.com.sad.controller.LoadBalancer;
 import br.com.sad.controller_slave.SlaveServices;
 import br.com.sad.controller.SlaveServicesImpl;
 import br.com.sad.controller_client.Controller;
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
-import br.com.sad.controller_slave.Operations;
 
 /**
  *
@@ -21,10 +19,11 @@ import br.com.sad.controller_slave.Operations;
  */
 public class ControllerApp {
 
-    public static LoadBalancer balance;
+ 
+    public static ContextControll ctControll;
 
     public static void main(String args[]) {
-        balance = new LoadBalancer();
+        ctControll = new ContextControll();
         try {
             int portSlave = 2010;
             int portClient = 2011;

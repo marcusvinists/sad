@@ -11,11 +11,13 @@ import java.io.Serializable;
  *
  * @author vini
  */
-public class Request implements Serializable{
+public class Request implements Serializable {
+
     private String filePath;
     private String fileName;
     private String fileTxt;
-     private OperationsEnum operation;
+    private OperationsEnum operation;
+    private long userId;
 
     public String getFilePath() {
         return filePath;
@@ -48,4 +50,13 @@ public class Request implements Serializable{
     public void setOperation(OperationsEnum operation) {
         this.operation = operation;
     }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
 }

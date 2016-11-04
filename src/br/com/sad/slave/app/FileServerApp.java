@@ -5,6 +5,7 @@
  */
 package br.com.sad.slave.app;
 
+import br.com.sad.controller_client_slave.Response;
 import br.com.sad.controller_slave.ServerSlaveInfo;
 import br.com.sad.controller_slave.SlaveServices;
 import br.com.sad.slave.ServerSlaveUtil;
@@ -30,6 +31,8 @@ public class FileServerApp {
             // TODO code application logic here
             ServerSlaveUtil util = new ServerSlaveUtil();
             List<String> listaArquivos = new LinkedList<>();
+            SlaveOperationsImpl operation = new SlaveOperationsImpl();
+            
             //porta do controlador
             int portSlaveToServer = 2010;
             int portServerToSlave = 3000;
@@ -43,6 +46,10 @@ public class FileServerApp {
             //registrar no servidor
             info = new ServerSlaveInfo(idServidor, listaArquivos,  "/opt/sad/" + idServidor + "/",portThisSlave);
             SlaveServices ss = (SlaveServices)Naming.lookup("rmi://localhost:"+portSlaveToServer+"/ss");
+            
+            Response response = operation.listFiles();
+            info.setListaDeArquivos(response.getListeResponse());
+            
             ss.registrarNovoServidor(info);
             
             //fica disponivel para realizar operacoes
